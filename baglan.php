@@ -1,6 +1,6 @@
 <?php
     try {
-        $baglan = new PDO("mysql:host=localhost;dbname=ismek;charset=utf8", "kullanici", "parola");
+        $baglan = new PDO("mysql:host=localhost;dbname=ismek;charset=utf8", "enter_yourusernameinserver", "enteryourpassword");
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
