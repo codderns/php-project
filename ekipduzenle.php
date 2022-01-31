@@ -7,7 +7,7 @@ if (/*$_COOKIE["giriscerez"]<>"varcerez" || */intval($_SESSION["kontrol"])<=0 ||
     die();
 }
 $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+if ($sorgu -> rowCount() <= 0) { 
     @header("Location:cikis.php");
     die();
 }
@@ -41,8 +41,6 @@ if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa burad
     
 <?php
 
-//tıklayınca get formdakini alacaktır ve input edince formdaki get, kaydet adında olduğu için
-//aşağıdaki if'de işlemler var. neden formdakine de duzenle yazmadık bilemedim :/
 
 if ($g_islem=="duzenle") {
     $sorgu = $baglan->query("select * from ekip where (id='$g_idi')",PDO::FETCH_ASSOC); 
@@ -58,12 +56,7 @@ if(isset($_POST["gonder"])){
         $aciklama = $_POST["aciklama"];
         $gorev = $_POST["gorev"];
         $durum = $_POST["durum"];
-        $duzenleid = $_POST["duzenleid"]; //input edince id kaybolur ve burada hafızada
-        //tutması için aşağıdaki hidden inputundan alınan bilgileri getirdik.
-
-        // if($durum == ""){ //seçmemişse kişi pasif olsun
-        //     $durum = "pasif";
-        // }
+        $duzenleid = $_POST["duzenleid"]; 
         
         $yeniad = isimlendir($_FILES["resim"]["name"]);
 
@@ -79,12 +72,8 @@ if(isset($_POST["gonder"])){
 
             if (move_uploaded_file($_FILES["resim"]["tmp_name"],$yoladi)) {
                 
-                //echo "eski resim:". $_POST["eskiresim"] . "<br>";
 
                 $resim = $yeniad;
-                //echo $resim ."<br>";
-          
-                //Eğer başka bir resim ise yüklenen silmeden önce bu kurala göre silme yap veya yapma
                 if ($resim <> $_POST["eskiresim"]) {
 
                     
@@ -95,15 +84,12 @@ if(isset($_POST["gonder"])){
                         if($satir3['resim'] == $resim){
                             $deger = 1;
                         }
-                        //echo $satir3['resim']. " : " . $resim ."<br>";
                     }
                  
                     if($deger == 0){
             
                         $yeniyoladi = __DIR__ . "\\" . $yol .  "\\" . $_POST["eskiresim"];
                        
-                       //echo "silinecek yol:". $yeniyoladi . "<br>";
-                    
                         unlink($yeniyoladi);
                     }
                     else {
@@ -118,7 +104,7 @@ if(isset($_POST["gonder"])){
             }   
         }
 
-        //UPDATE İÇİN:
+        //UPDATE:
         $sorgumuz=$baglan->prepare("UPDATE ekip SET adsoyad=:adsoyad, iletisim=:iletisim, gorev=:gorev, aciklama=:aciklama, resim=:resim, durum=:durum WHERE id=:id");
         $sonuc=$sorgumuz->execute([
         ":adsoyad" => $adsoyad,
@@ -173,7 +159,7 @@ else if($g_islem == "sil"){
         }
     }
 
-    //bağımsız bir koşul:
+    //bağımsız koşul:
     if ($resimadi ==""){
         echo "<script>alert('silme işlemi başarılı!')</script>";
         
@@ -209,7 +195,7 @@ else if($g_islem == "sil"){
 <form action="ekipduzenle.php?islem=kaydet&id=$g_idi" method="post" enctype="multipart/form-data">
 
         <p><b>Ad Soyad:</b></p>
-        <!--@satir yazma sebebi öyle bir bilgi alınmıyorsa hata olmasın diyedir.-->
+    
         <input type="text" name="adsoyad" value="<?php echo @$satird['adsoyad']; ?>"><br><br>
 
         <p><b>İletişim Bilgisi:</b></p>
@@ -233,8 +219,6 @@ else if($g_islem == "sil"){
             <option value="pasif"<?php if (@$satird[durum]=="pasif") {echo "selected";} ?>>Pasif</option>
         </select><br><br>
 
-        <!--sayfa yenilenince id kaybolur ve bunun önüne geçmek için burada id ve resim bilgisini
-    tuttuk. eğer resim değişikliği olacaksa veritabanındaki resmi burada tuttuk-->
         <input type="hidden" name="duzenleid" value="<?php echo @$satird[id]; ?>">
         <input type="hidden" name="eskiresim" value="<?php echo @$satird[resim]; ?>">
 
