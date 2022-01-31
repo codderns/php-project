@@ -2,14 +2,12 @@
     session_start();
     require_once("baglan.php");
 
-     //BU KISMI AYARLA
-    //giriş kontrolü yapılsın: 
     if (/*$_COOKIE["giriscerez"]<>"varcerez" ||*/ intval($_SESSION["kontrol"])<=0 || $_SESSION["kullanici"]=="") {
         @header("Location:cikis.php");
         die();
     }
     $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-    if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+    if ($sorgu -> rowCount() <= 0) { 
         @header("Location:cikis.php");
         die();
     }
@@ -26,7 +24,7 @@
 <?php
  //DELETE için:
     $gelenid = @$_GET['id'];
-    $gelenislem = @$_GET['islem']; //tıklanınca get olacağı için tıklanmayınca uyarı vermesin
+    $gelenislem = @$_GET['islem']; 
 
     if($gelenislem == "sil"){
         $sorgu = $baglan->prepare("delete from iletisim where id=:idden");
@@ -118,13 +116,7 @@
     <?php
     
     
-    $sorgu = $baglan->query("select * from iletisim order by $sirala[0] $sirala[1]",PDO::FETCH_ASSOC); //buradaki fetch_assoc aslında dize oluşturur 
-    //foreach döngüsü ile getirilir bu oluşturulan dize
-
-    //Ayrıca en üstteki php'de yeniyon değişkenine asc veya desc atandı, sonra sıralasın tıklayınca
-//yani normalde tablodaki sıra ile gelir ancak tıklayınca o zaman üstteki 
-//ANLAMADIĞIM KISIM Sayfa ilk defa açılınca bir GET yok söz konusu. O zaman $sirala dizesi değer
-//almaz ve sıralama order by ile nasıl oluyor de hatasız veriyor??
+    $sorgu = $baglan->query("select * from iletisim order by $sirala[0] $sirala[1]",PDO::FETCH_ASSOC); 
 
     if ($sorgu -> rowCount() > 0){
         foreach ($sorgu as $satir) {
