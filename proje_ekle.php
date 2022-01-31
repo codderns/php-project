@@ -2,14 +2,13 @@
 session_start();
 require_once("baglan.php");
 
- //BU KISMI AYARLA
-//giriş kontrolü yapılsın: 
+
 if (/*$_COOKIE["giriscerez"]<>"varcerez" ||*/ intval($_SESSION["kontrol"])<=0 || $_SESSION["kullanici"]=="") {
     @header("Location:cikis.php");
     die();
 }
 $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+if ($sorgu -> rowCount() <= 0) { 
     @header("Location:cikis.php");
     die();
 }
@@ -62,7 +61,7 @@ if(isset($_POST["gonder"])){
        // echo $yoladi; echo "<br>";
       //  echo $yeniad; echo "<br>";
         
-        if($durum == ""){ //seçmemişse kişi pasif olsun
+        if($durum == ""){ 
             $durum = "pasif";
         }
 
@@ -104,7 +103,6 @@ if(isset($_POST["gonder"])){
 <form action="proje_ekle.php?islem=kaydet" method="post" enctype="multipart/form-data">
 
         <p><b>Proje Başlığı:</b></p>
-        <!--@satir yazma sebebi öyle bir bilgi alınmıyorsa hata olmasın diyedir.-->
         <input type="text" required name="baslik" value="<?php echo @$satir[baslik]; ?>"><br><br>
 
         <p><b>Projenin Resmi:</b></p>
