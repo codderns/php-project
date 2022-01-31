@@ -7,7 +7,7 @@ if (/*$_COOKIE["giriscerez"]<>"varcerez" || */intval($_SESSION["kontrol"])<=0 ||
     die();
 }
 $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+if ($sorgu -> rowCount() <= 0) { 
     @header("Location:cikis.php");
     die();
 }
@@ -89,13 +89,10 @@ if ($sirala[1]=="asc") {$yeniyon = "desc";} else {$yeniyon = "asc";}
 
     <table width="99%">
         <tr class="sira">
-            <!--tıklanınca mesela adsoyad'a üstteki get'in değeri adsoyad olur. 
-            ayrıca sirala adlı dizenin ikinci indisinin değeri $yeniyon değişkenine atanır, asc veya desc.-->
             <td width="9%"><b><a href="?ord=id,<?php echo $yeniyon; ?>">ID</a></b></td>
             <td width="10%"><b><a href="?ord=adsoyad,<?php echo $yeniyon; ?>">Ad Soyad</a></b></td>
             <td width="13%"><b>İletişim</b></td>
-            <td width="13%"><b><a href="?ord=gorev,<?php echo $yeniyon; ?>">Görev</a></b></td><!--Görev için bir veri tabanı gerekirdi normalde 
-        ve oradan bilgiyi çekip buraya aktarılırdı-->
+            <td width="13%"><b><a href="?ord=gorev,<?php echo $yeniyon; ?>">Görev</a></b></td>
             <td width="20%"><b>Açıklama</b></td>
             <td width="15%"><b>Resim</b></td>
             <td width="8%"><b>Durum</b></td>
@@ -124,8 +121,7 @@ if ($sirala[1]=="asc") {$yeniyon = "desc";} else {$yeniyon = "asc";}
             </td>
             
             </tr>";
-   // ?islem=duzenle demeye gerek kalmadı çünkü düzenle işlemini ayrı sayfada oluşturdum, silme
-   //işlemi de duzenle ile aynı sayfada açılmadan olacak, gerek var.
+
         }
     }
     ?>
