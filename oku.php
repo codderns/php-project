@@ -2,13 +2,13 @@
     session_start();
     require_once("baglan.php");
 
-    //giriş kontrolü yapılsın: 
+
     if (/*$_COOKIE["giriscerez"]<>"varcerez" || */intval($_SESSION["kontrol"])<=0 || $_SESSION["kullanici"]=="") {
         @header("Location:cikis.php");
         die();
     }
     $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-    if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+    if ($sorgu -> rowCount() <= 0) { 
         @header("Location:cikis.php");
         die();
     }
@@ -16,7 +16,7 @@
 
 <?php
     $gelenid = @$_GET['id'];
-    $gelenislem = @$_GET['islem']; //tıklanınca get olacağı için tıklanmayınca uyarı vermesin    
+    $gelenislem = @$_GET['islem'];
 ?>
 
 <!DOCTYPE html>
