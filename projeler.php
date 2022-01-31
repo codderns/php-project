@@ -2,21 +2,19 @@
 session_start();
 require_once("baglan.php");
 
- //BU KISMI AYARLA
-//giriş kontrolü yapılsın: 
 if (/*$_COOKIE["giriscerez"]<>"varcerez" ||*/ intval($_SESSION["kontrol"])<=0 || $_SESSION["kullanici"]=="") {
     @header("Location:cikis.php");
     die();
 }
 $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+if ($sorgu -> rowCount() <= 0) {
     @header("Location:cikis.php");
     die();
 }
 ?>
 
 <?php
-//tabloyu sıralamada asc desc atama değişkene
+
 if (isset($_GET["ord"])) {
     $sirala = explode(",",@$_GET["ord"]);
 } else {
@@ -94,15 +92,12 @@ if ($sirala[1]=="asc") {$yeniyon = "desc";} else {$yeniyon = "asc";}
 
     <p style="text-align:right; margin:10px; display:block;">
 
-<!--aslında ?islem=yeni yazmaya gerek yok çünkü düzenleme için ayrı sayfa oluşturdum-->
     <button class="btn btn-success" onclick="window.top.location='proje_ekle.php?islem=yeni';">Yeni Proje Ekle</button>
     </p>
 
 
     <table width="99%">
         <tr>
-            <!--tıklanınca mesela adsoyad'a üstteki get'in değeri adsoyad olur. 
-            ayrıca sirala adlı dizenin ikinci indisinin değeri $yeniyon değişkenine atanır, asc veya desc.-->
             <td width="10%"><b><a href="?ord=id,<?php echo $yeniyon; ?>">ID</a></b></td>
             <td width="20%"><b><a href="?ord=baslik,<?php echo $yeniyon; ?>">Başlık</a></b></td>
             <td width="35%"><b>Resim</b></td>
@@ -128,8 +123,7 @@ if ($sirala[1]=="asc") {$yeniyon = "desc";} else {$yeniyon = "asc";}
             <a style='color:blue;' href='proje_duzenle.php?islem=sil&id=$satir[id]' onclick='if (!confirm(\"Silmek İstediğinize Emin misiniz?\")) {return false;}'>Sil</a>
             </td>
             </tr>";
-   // ?islem=duzenle demeye gerek kalmadı çünkü düzenle işlemini ayrı sayfada oluşturdum, silme
-   //işlemi de duzenle ile aynı sayfada açılmadan olacak, gerek var.
+
         }
     }
     ?>
