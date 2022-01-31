@@ -35,7 +35,7 @@
 
   <div class="w3-row-padding">
       <?php
-          $sorgu = $baglan->query("select * from projeler where (durum='aktif') order by baslik asc", PDO::FETCH_ASSOC); //verileri getir eğer aktif ise durum
+          $sorgu = $baglan->query("select * from projeler where (durum='aktif') order by baslik asc", PDO::FETCH_ASSOC); 
           if ($sorgu->rowCount()>0) {
               foreach ($sorgu as $satir) {
                   echo "<div class='w3-col l3 m6 w3-margin-bottom'>
@@ -103,7 +103,7 @@ if (isset($_POST["deneme"])){
   $email = $_POST["email"];
   $konu = $_POST["konu"];
   $mesaj = $_POST["mesaj"];
-  $ipadres = $_SERVER["REMOTE_ADDR"]; //kulanıcı ip adres bilgisi alır
+  $ipadres = $_SERVER["REMOTE_ADDR"]; 
   $tarih = date("Y-m-d H:i:s");
 
   $adsoyad = trim(filter_var($adsoyad,FILTER_SANITIZE_STRING));
@@ -122,12 +122,10 @@ if (isset($_POST["deneme"])){
    window.location.href='index.php';
    </script>";
   }
-
-  //eğer böyle bir giriş varsa iletişim kısmında yönetici sayfasına giriş yap.
+    
   else if($adsoyad=="admin" && $email=="admin@admin.com" && $mesaj=="123456" && $konu ==""){
     echo "<script> alert('Yönetici girişi algılandı.')</script>";
   
-    //pdo sorgusu select ile verileri çağır veritabanından
     $sorgu = $baglan->query("select * from mimarlik_yonetici",PDO::FETCH_ASSOC);
 
     //$satir = $sorgu -> execute();
@@ -160,7 +158,7 @@ if (isset($_POST["deneme"])){
     $sorgu = $baglan->prepare("insert into iletisim set id=?,adsoyad=?,email=?,konu=?,mesaj=?,ipadres=?,tarih=?");
     $ekle = $sorgu->execute(array(NULL,"$adsoyad","$email","$konu","$mesaj","$ipadres","$tarih"));
     
-    $kayitno = $baglan->lastInsertID(); //Eklenen Kayıt Numarasını Verir.
+    $kayitno = $baglan->lastInsertID(); 
     echo "<script>
     alert('$kayitno Sıra Numarası İle Kayıt Altına Alındı.');
     window.location.href='index.php';
