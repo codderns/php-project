@@ -2,37 +2,17 @@
 session_start();
 require_once("baglan.php");
 
- //BU KISMI AYARLA
-//giriş kontrolü yapılsın: 
 if (/*$_COOKIE["giriscerez"]<>"varcerez" || */intval($_SESSION["kontrol"])<=0 || $_SESSION["kullanici"]=="") {
     @header("Location:cikis.php");
     die();
 }
 $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+if ($sorgu -> rowCount() <= 0) {
     @header("Location:cikis.php");
     die();
 }
 ?>
-<?php
-/*
-    
 
-    //UPDATE İÇİN:
-    //$baglan->prepare("update iletisim set adsoyad=?,email=?,konu=?,mesaj=?,ipadres=?,tarih=? where id=?");
-    //$duzenle = $sorgu->execute(array("$adsoyad","$email","$konu","$mesaj","$ipadres","$tarih","$id"));
-    //if ($duzenle) {} else {}
-
-    //iletişim olan tabloya kaydedilir
-    
-/*prepare: ön hazırlıklı sorgu işlemidir.
-prepare ifadesi, aynı (veya benzer) SQL ifadelerini yüksek verimlilikle tekrar tekrar yürütmek için kullanılan bir özelliktir. Burada da şablon oluşturulmuş. Sonra da tekrar tekrar kullanılacak
-word dosyasında ayrıntılı açıklaması vardır.*/
-
-    
-    /* execute bu şablonu çalıştırdığımız zamanda kullanırız */
-   
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
