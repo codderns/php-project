@@ -7,7 +7,7 @@ if (/*$_COOKIE["giriscerez"]<>"varcerez" || */intval($_SESSION["kontrol"])<=0 ||
     die();
 }
 $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+if ($sorgu -> rowCount() <= 0) {
     @header("Location:cikis.php");
     die();
 }
@@ -52,11 +52,6 @@ if(isset($_POST["gonder"])){
         $aciklama = $_POST["aciklama"];
         $durum = $_POST["durum"];
 
-        /*if (!file_exists('img')) {
-            mkdir('img');
-        }*/
-
-
         $yol = "ekipimg";
 
         $yeniad = isimlendir($_FILES["resim"]["name"]);
@@ -86,7 +81,7 @@ if(isset($_POST["gonder"])){
  
 
         $sorgu = $baglan -> prepare("INSERT INTO ekip SET 
-        id = ?, /*? yerine key (anahtar) isimler belirtipte ona göre dizide değer gönderdik*/
+        id = ?, 
         adsoyad = ?,
         iletisim = ?,
         gorev = ?,
@@ -117,15 +112,12 @@ if(isset($_POST["gonder"])){
 <form action="ekipekle.php?islem=kaydet" method="post" enctype="multipart/form-data">
 
         <p><b>Ad Soyad Bilgisi:</b></p>
-        <!--@satir yazma sebebi öyle bir bilgi alınmıyorsa hata olmasın diyedir.-->
         <input type="text" required name="adsoyad" value=""><br><br>
 
         <p><b>İletişim Bilgisi:</b></p>
-        <!--@satir yazma sebebi öyle bir bilgi alınmıyorsa hata olmasın diyedir.-->
         <input type="text" required name="iletisim" value=""><br><br>
 
         <p><b>Görev Adı:</b></p>
-        <!--@satir yazma sebebi öyle bir bilgi alınmıyorsa hata olmasın diyedir.-->
         <input type="text" required name="gorev" value=""><br><br>
 
         <p><b>Açıklamalar:</b></p>
