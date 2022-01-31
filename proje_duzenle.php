@@ -7,7 +7,7 @@ if (/*$_COOKIE["giriscerez"]<>"varcerez" || */intval($_SESSION["kontrol"])<=0 ||
     die();
 }
 $sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
-if ($sorgu -> rowCount() <= 0) { //eğer herhangi bir bilgi alınmamışsa buradan çıkış
+if ($sorgu -> rowCount() <= 0) { 
     @header("Location:cikis.php");
     die();
 }
@@ -84,12 +84,8 @@ if(isset($_POST["gonder"])){
                 $resim = $yeniad;
                 //echo $resim ."<br>";
                         
-                        //UPDATE İÇİN:
-                //öncelikle veri tabanına kaydediyoruz. Yoksa aşağıdaki sorgulamayı çalıştırınca 
-                // eğer iki tane aynı resim var ve değişen biri olursa diğerini göremez ve silinir
-                // eğer biz bu şekilde önce veri tabanına kaydetmezsek
-                //Ayrıca diğer her yere de bunu koymaya gerek yok sanırım, bi buraya bir de 
-                //yine en alta koymak da yeterlidir.
+                        //UPDATE
+            
                 $sorgumuz=$baglan->prepare("UPDATE projeler SET baslik=:baslik, resim=:resim, durum=:durum WHERE id=:id");
                 $sonuc=$sorgumuz->execute([
                 ":baslik"         => $baslik,
@@ -171,7 +167,6 @@ else if($projedengelenislem == "sil"){
         $resimadi = $satir2['resim'];
     }
     
-    //veritabanından sildik bağımsız şekilde
     $sorgu = $baglan -> prepare("DELETE FROM projeler WHERE id=$projedengelenid");
     $sil = $sorgu -> execute(array(
         'id'=>$projedengelenid
@@ -180,12 +175,11 @@ else if($projedengelenislem == "sil"){
     $sorgu3 =  $baglan -> query("SELECT * FROM projeler",PDO::FETCH_ASSOC);
     $deger = 0;
     foreach($sorgu3 as $satir3){
-        if($satir3['resim'] == $resimadi){ //herhangi bir resmin adı bunla aynı ise
+        if($satir3['resim'] == $resimadi){ 
             $deger = 1;
         }
     }
    
-    //bağımsız bir koşul:
     if ($resimadi==""){
         echo "<script>alert('silme işlemi başarılı!')</script>";
         
@@ -227,7 +221,6 @@ else if($projedengelenislem == "sil"){
 <form action="proje_duzenle.php?islem=kaydet&id=$projedengelenid" method="post" enctype="multipart/form-data">
 
         <p><b>Yeni Proje Başlığı:</b></p>
-        <!--@satir yazma sebebi öyle bir bilgi alınmıyorsa hata olmasın diyedir.-->
         <input type="text" required name="baslik" value="<?php echo @$satird['baslik']; ?>"><br><br>
 
         <p><b>Projenin Resmi:</b></p>
@@ -240,10 +233,7 @@ else if($projedengelenislem == "sil"){
             <option value="aktif" <?php if (@$satird[durum]=="aktif") {echo "selected";} ?>>Aktif</option>
             <option value="pasif"<?php if (@$satird[durum]=="pasif") {echo "selected";} ?>>Pasif</option>
         </select><br><br>
-<!--BU İNANILMAZ ÖNEMLİ BİR KISIM! BİR ÖNCEKİ SAYFADAN ALINAN GET İLE DÜZENLEYE TIKLAYINCA
-GET ALAMIYOR VE BU YÜZDEN BİR ÖNCEKİ SAYFADAN ALINAN GET'İ KAYDEDİYORUZ BU SAYEDE. ÜSTTEKİ
-IF SORGUSU İLE İLK SAYFA AÇILINCA İD'Yİ BU GİZLİ İNPUTA KAYDEDİP SONRA TIKLAMAYA BASINCA
-İD'Yİ ORANIN İÇİNE ALIYORUZ-->
+
         <input type="hidden" name="duzenleid" value="<?php echo @$satird[id]; ?>">
         <input type="hidden" name="eskiresim" value="<?php echo @$satird[resim]; ?>">
 
