@@ -6,7 +6,7 @@ if (/*$_COOKIE["giriscerez"]<>"varcerez" || */intval($_SESSION["kontrol"])<=0 ||
     @header("Location:cikis.php");
     die();
 }
-$sorgu = $baglan -> query("select * from mimarlik_yonetici where (id='$_SESSION[kontrol]' && kullanici ='$_SESSION[kullanici]')");
+$sorgu = $baglan -> query("select * from tablename where (id='$_SESSION[kontrol]' && user ='$_SESSION[kullanici]')");
 if ($sorgu -> rowCount() <= 0) {
     @header("Location:cikis.php");
     die();
@@ -82,12 +82,12 @@ if(isset($_POST["gonder"])){
 
         $sorgu = $baglan -> prepare("INSERT INTO ekip SET 
         id = ?, 
-        adsoyad = ?,
-        iletisim = ?,
-        gorev = ?,
-        aciklama = ?,
-        resim = ?,
-        durum = ?
+        name = ?,
+        contact = ?,
+        task = ?,
+        desc = ?,
+        pict = ?,
+        status = ?
         ");
         $ekle = $sorgu -> execute(array(
             NULL, $adsoyad, $iletisim, $gorev, $aciklama, $resim, $durum
